@@ -151,7 +151,9 @@ public class SimonJdbcInterceptor extends JdbcInterceptor {
 	 */
 	private <T> T newInstance(Constructor constructor, Object[] parameterValues) {
 		try {
-			return (T) constructor.newInstance(parameterValues);
+			@SuppressWarnings("unchecked")
+			T instance= (T) constructor.newInstance(parameterValues);
+			return instance;
 		} catch (InstantiationException instantiationException) {
 			LOGGER.error("Simon statement instantiation failed", instantiationException);
 			return null;

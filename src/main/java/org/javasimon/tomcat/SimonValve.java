@@ -48,7 +48,8 @@ public class SimonValve extends ValveBase {
 	 */
 	protected Stopwatch getMonitor(Request request) {
 		String uri=request.getRequestURI();
-		String name=prefix+uri.replaceAll("[.:-]", "_").replace('/', '.');
+		// Allowed chars -_[]A-Za-z0-9.,@$%()<>
+		String name=prefix+uri.replaceAll("[.:;?!=+*#]", "_").replace('/', '.');
 		Stopwatch stopwatch=SimonManager.manager().getStopwatch(name);
 		if (stopwatch.getNote()==null) {
 			stopwatch.setNote(uri);
