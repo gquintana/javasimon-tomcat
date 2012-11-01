@@ -23,24 +23,29 @@ This Tomcat lifecycle listener is in charge of initilizing Simon, it can
 - register system callbacks (like the JMX one) and initialize Simon
 - disable Simon monitoring
 
-
+```xml
 	<Listener className="org.javasimon.tomcat.SimonListener"
 		callbacks="org.javasimon.jmx.JmxRegisterCallback,org.javasimon.utils.SLF4JLoggingCallback"
 		enabled="true" />
+```
 
 ### Valve
 This Tomcat valve aims at monitoring HTTP Requests response times. It's very similar to JavaSimon's servlet filter
 (for that reason javasimon-javaee.jar is required).
 
+```xml
 	<Valve className="org.javasimon.tomcat.SimonValve"
 		prefix="valve"/>
+```
 
 ### JDBC Interceptor
 This Tomcat JDBC Interceptor aims at monitoring SQL Requests response times. It's very similar to JavaSimon's datasource
 wrapper ((for that reason javasimon-jdbc4.jar is required) and Tomcat's SlowQueryReportJmx interceptor. This feature requires at least Tomcat 7.
 
+```xml
 	<Resource name="jdbc/MyDataSource" auth="Container" type="javax.sql.DataSource"
 		jdbcInterceptors="ConnectionState;StatementFinalizer;SlowQueryReportJmx(threshold=1000);org.javasimon.tomcat.SimonJdbcInterceptor(prefix=jdbc)"
 		jmxEnabled="true"
 		removeAbandoned="true" removeAbandonedTimeout="60" logAbandoned="true"
-		...
+	/>
+```
