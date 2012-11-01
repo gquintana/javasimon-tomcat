@@ -15,9 +15,9 @@ public class TomcatRequestStopwatchSourceTest {
         Request requestMock=mock(Request.class);
         // Special characters removal
         when(requestMock.getRequestURI()).thenReturn("/test/some!weird^thing");
-        assertEquals(stopwatchSource.getMonitorName(requestMock),"org.javasimon.tomcat.http./test/some_weird_thing");
+        assertEquals(stopwatchSource.getMonitorName(requestMock),"org.javasimon.tomcat.http.test.some_weird_thing");
         // JSESSIONID removal
         when(requestMock.getRequestURI()).thenReturn("/test/url?JSESSIONID=1234");
-        assertEquals(stopwatchSource.getMonitorName(requestMock), "org.javasimon.tomcat.http./test/url_");
+        assertEquals(stopwatchSource.getMonitorName(requestMock), "org.javasimon.tomcat.http.test.url_");
     }
 }

@@ -25,7 +25,10 @@ public class TomcatRequestStopwatchSource extends AbstractStopwatchSource<Reques
      * Remove JSESSIONID attribute
      */
     private final Replacer jsessionParameterReplacer = new Replacer("[;&]?JSESSIONID=[^;?/&]*", "", Replacer.Modificator.IGNORE_CASE);
-
+    /**
+     * Replace Slash by.
+     */
+    private final Replacer slashReplacer = new Replacer("[/]", Manager.HIERARCHY_DELIMITER);
     /**
      * Constructor with {@link org.javasimon.Manager}.
      *
@@ -49,8 +52,9 @@ public class TomcatRequestStopwatchSource extends AbstractStopwatchSource<Reques
         String monitorName=request.getRequestURI();
         monitorName=jsessionParameterReplacer.process(monitorName);
         monitorName=unallowedCharacterReplacer.process(monitorName);
+        monitorName=slashReplacer.process(monitorName);
         if (prefix!=null && !prefix.isEmpty()) {
-            monitorName=prefix+Manager.HIERARCHY_DELIMITER+monitorName;
+            monitorName=prefix+monitorName;
         }
         return monitorName;
     }
