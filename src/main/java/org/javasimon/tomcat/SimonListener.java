@@ -2,14 +2,15 @@ package org.javasimon.tomcat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.catalina.Lifecycle;
 import org.apache.catalina.LifecycleEvent;
 import org.apache.catalina.LifecycleListener;
 import org.javasimon.SimonManager;
 import org.javasimon.callback.Callback;
 import org.javasimon.jmx.JmxRegisterCallback;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Tomcat lifecycle listener initializes Simon manager:<ul> 
@@ -23,7 +24,7 @@ public class SimonListener implements LifecycleListener {
 	/**
 	 * Logger
 	 */
-	private static final Logger LOGGER=LoggerFactory.getLogger(SimonListener.class);
+	private static final Logger LOGGER=Logger.getLogger(SimonListener.class.getName());
 	/**
 	 * Flag indicating whether Simon manager should be enabled or disabled. 
 	 * null means leave as default
@@ -40,7 +41,7 @@ public class SimonListener implements LifecycleListener {
 	private List<Callback> addedCallbacks;
 
 	private Callback logCallbackException(String className,Exception e) {
-		LOGGER.error("Callback "+className+" instantiation failed", e);
+		LOGGER.log(Level.SEVERE, "Callback "+className+" instantiation failed", e);
 		return null;
 	}
 	private Callback createCallback(String callbackName) {
