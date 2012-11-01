@@ -100,7 +100,7 @@ public class SimonListener implements LifecycleListener {
 	public void lifecycleEvent(LifecycleEvent event) {
 		if (event.getType().equals(Lifecycle.START_EVENT)) {
 			if (enabled != null) {
-				if (enabled.booleanValue()) {
+				if (enabled) {
 					SimonManager.enable();
 				} else {
 					SimonManager.disable();

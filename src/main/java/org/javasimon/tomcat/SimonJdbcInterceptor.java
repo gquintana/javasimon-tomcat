@@ -1,14 +1,5 @@
 package org.javasimon.tomcat;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.Map;
-
 import org.apache.tomcat.jdbc.pool.ConnectionPool;
 import org.apache.tomcat.jdbc.pool.JdbcInterceptor;
 import org.apache.tomcat.jdbc.pool.PoolProperties.InterceptorProperty;
@@ -19,7 +10,14 @@ import org.javasimon.jdbc4.SimonStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.StringContent;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Map;
 
 /**
  * Tomcat JDBC connection pool interceptor.
@@ -118,7 +116,7 @@ public class SimonJdbcInterceptor extends JdbcInterceptor {
      */
     private static abstract class AbstractStatementWrapper<B extends Statement, A extends SimonStatement> {
         private final Class<B> statementClass;
-        protected final Constructor<A> simonStatementConstructor;
+        final Constructor<A> simonStatementConstructor;
 
         private AbstractStatementWrapper(Class<B> statementClass, Constructor<A> simonStatementConstructor) {
             this.statementClass = statementClass;
@@ -129,7 +127,7 @@ public class SimonJdbcInterceptor extends JdbcInterceptor {
             return statementClass.isInstance(result);
         }
 
-        protected A newInstance(Object... arguments) {
+        A newInstance(Object... arguments) {
             return SimonJdbcInterceptor.newInstance(simonStatementConstructor, arguments);
         }
 
@@ -226,7 +224,7 @@ public class SimonJdbcInterceptor extends JdbcInterceptor {
     private static <T> T newInstance(Constructor constructor, Object[] parameterValues) {
         try {
             @SuppressWarnings("unchecked")
-            T instance = (T) constructor.newInstance(parameterValues);
+            final T instance = (T) constructor.newInstance(parameterValues);
             return instance;
         } catch (InstantiationException instantiationException) {
             LOGGER.error("Simon statement instantiation failed", instantiationException);

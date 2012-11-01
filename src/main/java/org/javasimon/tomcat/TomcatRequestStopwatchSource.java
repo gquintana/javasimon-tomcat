@@ -4,12 +4,9 @@ import org.apache.catalina.connector.Request;
 import org.javasimon.Manager;
 import org.javasimon.SimonManager;
 import org.javasimon.Stopwatch;
-import org.javasimon.source.AbstractStopwatchSource;
-import org.javasimon.source.MonitorSource;
-import org.javasimon.utils.Replacer;
 import org.javasimon.javaee.SimonServletFilterUtils;
-
-import javax.servlet.http.HttpServletRequest;
+import org.javasimon.source.AbstractStopwatchSource;
+import org.javasimon.utils.Replacer;
 
 /**
  * Stopwatch produced for Tomcat HTTP Request.
@@ -23,11 +20,11 @@ public class TomcatRequestStopwatchSource extends AbstractStopwatchSource<Reques
     /**
      * Replace Unallowed characters by _
      */
-    private Replacer unallowedCharacterReplacer = SimonServletFilterUtils.createUnallowedCharsReplacer("_");
+    private final Replacer unallowedCharacterReplacer = SimonServletFilterUtils.createUnallowedCharsReplacer("_");
     /**
      * Remove JSESSIONID attribute
      */
-    private Replacer jsessionParameterReplacer = new Replacer("[;&]?JSESSIONID=[^;?/&]*", "", Replacer.Modificator.IGNORE_CASE);
+    private final Replacer jsessionParameterReplacer = new Replacer("[;&]?JSESSIONID=[^;?/&]*", "", Replacer.Modificator.IGNORE_CASE);
 
     /**
      * Constructor with {@link org.javasimon.Manager}.
@@ -82,5 +79,13 @@ public class TomcatRequestStopwatchSource extends AbstractStopwatchSource<Reques
             stopwatch.setNote(request.getRequestURI());
         }
         return stopwatch;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }
