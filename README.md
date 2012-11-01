@@ -22,6 +22,7 @@ This Tomcat lifecycle listener is in charge of initilizing Simon, it can
 - register system callbacks (like the JMX one) and initialize Simon
 - disable Simon monitoring
 
+
     <Listener className="org.javasimon.tomcat.SimonListener"
 		callbacks="org.javasimon.jmx.JmxRegisterCallback,org.javasimon.utils.SLF4JLoggingCallback"
 		enabled="true" />
